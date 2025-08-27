@@ -111,7 +111,7 @@ public class SendEmail
 
 		if (getlEnabled()==false)
 		{
-			logger.info("Email disabled in sftpSend.xml");
+			logger.info("Email disabled in sftpPut.xml");
 			return result;
 		}
 

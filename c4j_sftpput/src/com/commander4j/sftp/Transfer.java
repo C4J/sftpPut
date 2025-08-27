@@ -34,7 +34,7 @@ import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
 
 public class Transfer extends Thread
 {
-	public static Transfer sftpsend;
+	public static Transfer sftpput;
 	public static Logger logger = org.apache.logging.log4j.LogManager.getLogger((Transfer.class));
 	public static LoggerContextFactory factory = LogManager.getFactory();
 	public static Hashtable<String, String> general = new Hashtable<String, String>();
@@ -47,7 +47,7 @@ public class Transfer extends Thread
 	public static JUtility utils = new JUtility();
 	public static EmailQueue emailqueue = new EmailQueue();
 	public static EmailThread emailthread;
-	public static String version = "4.81";
+	public static String version = "4.82";
 	public static Long pollFrequencySeconds = (long) 0;
 	
 	public static void main(String[] args)
@@ -55,13 +55,13 @@ public class Transfer extends Thread
 
 		Transfer.initLogging("");
 
-		logger.info("sftpSend Starting");
+		logger.info("sftpPut Starting");
 
 		ShutdownHook shutdownHook = new ShutdownHook();
 		Runtime.getRuntime().addShutdownHook(shutdownHook);
 
-		sftpsend = new Transfer();
-		sftpsend.loadConfigXML();
+		sftpput = new Transfer();
+		sftpput.loadConfigXML();
 
 		emailqueue.setEnabled(Boolean.valueOf(utils.replaceNullStringwithDefault(general.get("emailEnabled"), "no")));
 
@@ -69,7 +69,7 @@ public class Transfer extends Thread
 
 		emailthread.start();
 
-		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Send"), "Program started on " + utils.getClientName(), "");
+		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Put"), "Program started on " + utils.getClientName(), "");
 		
 		try
 		{
@@ -80,14 +80,14 @@ public class Transfer extends Thread
 			pollFrequencySeconds = (long) 10000;
 		}
 
-		logger.info("SFTP Send Version "+version);
+		logger.info("SFTP Put Version "+version);
 		logger.info("currentDirectory :" + source.get("localDir"));
 		logger.info("Source Folder Polling Frequency :" + pollFrequencySeconds);
 		logger.info("Scan for files...");
 
 		while (run)
 		{
-			sftpsend.transferFiles();
+			sftpput.transferFiles();
 
 			try
 			{
@@ -99,7 +99,7 @@ public class Transfer extends Thread
 			}
 		}
 		
-		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Send"), "Program stopped on " + utils.getClientName(), "");
+		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Put"), "Program stopped on " + utils.getClientName(), "");
 
 		emailthread.shutdown();
 
@@ -115,7 +115,7 @@ public class Transfer extends Thread
 			}
 		}
 
-		logger.info("sftpSend Shutdown");
+		logger.info("sftpPut Shutdown");
 
 
 
@@ -311,7 +311,7 @@ public class Transfer extends Thread
 
 				if (sendCount>0)
 				{
-					emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Send"), sendList, "");
+					emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Put"), sendList, "");
 				}
 			}
 		}
@@ -325,7 +325,7 @@ public class Transfer extends Thread
 		logger.info("loadConfigXML");
 		JCipher cipher = new JCipher(EncryptData.key);
 
-		String xmlConfig = (System.getProperty("user.dir") + File.separator + "xml" + File.separator + "config" + File.separator + "sftpSend.xml");
+		String xmlConfig = (System.getProperty("user.dir") + File.separator + "xml" + File.separator + "config" + File.separator + "sftpPut.xml");
 
 		JXMLDocument xmlDoc;
 		xmlDoc = new JXMLDocument(xmlConfig);
@@ -341,11 +341,11 @@ public class Transfer extends Thread
 
 		seq = 1;
 
-		while (xmlDoc.findXPath("/config/sftpSend2/general/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
+		while (xmlDoc.findXPath("/config/sftpPut/general/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
 		{
-			id = xmlDoc.findXPath("/config/sftpSend2/general/value[" + String.valueOf(seq) + "]/@id");
-			value = xmlDoc.findXPath("/config/sftpSend2/general/value[" + String.valueOf(seq) + "]");
-			encrypted = xmlDoc.findXPath("/config/sftpSend2/general/value[" + String.valueOf(seq) + "]/@encrypted");
+			id = xmlDoc.findXPath("/config/sftpPut/general/value[" + String.valueOf(seq) + "]/@id");
+			value = xmlDoc.findXPath("/config/sftpPut/general/value[" + String.valueOf(seq) + "]");
+			encrypted = xmlDoc.findXPath("/config/sftpPut/general/value[" + String.valueOf(seq) + "]/@encrypted");
 
 			if (encrypted.equals("yes"))
 			{
@@ -363,11 +363,11 @@ public class Transfer extends Thread
 
 		seq = 1;
 
-		while (xmlDoc.findXPath("/config/sftpSend2/security/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
+		while (xmlDoc.findXPath("/config/sftpPut/security/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
 		{
-			id = xmlDoc.findXPath("/config/sftpSend2/security/value[" + String.valueOf(seq) + "]/@id");
-			value = xmlDoc.findXPath("/config/sftpSend2/security/value[" + String.valueOf(seq) + "]");
-			encrypted = xmlDoc.findXPath("/config/sftpSend2/security/value[" + String.valueOf(seq) + "]/@encrypted");
+			id = xmlDoc.findXPath("/config/sftpPut/security/value[" + String.valueOf(seq) + "]/@id");
+			value = xmlDoc.findXPath("/config/sftpPut/security/value[" + String.valueOf(seq) + "]");
+			encrypted = xmlDoc.findXPath("/config/sftpPut/security/value[" + String.valueOf(seq) + "]/@encrypted");
 
 			if (encrypted.equals("yes"))
 			{
@@ -385,11 +385,11 @@ public class Transfer extends Thread
 
 		seq = 1;
 
-		while (xmlDoc.findXPath("/config/sftpSend2/source/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
+		while (xmlDoc.findXPath("/config/sftpPut/source/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
 		{
-			id = xmlDoc.findXPath("/config/sftpSend2/source/value[" + String.valueOf(seq) + "]/@id");
-			value = xmlDoc.findXPath("/config/sftpSend2/source/value[" + String.valueOf(seq) + "]");
-			encrypted = xmlDoc.findXPath("/config/sftpSend2/source/value[" + String.valueOf(seq) + "]/@encrypted");
+			id = xmlDoc.findXPath("/config/sftpPut/source/value[" + String.valueOf(seq) + "]/@id");
+			value = xmlDoc.findXPath("/config/sftpPut/source/value[" + String.valueOf(seq) + "]");
+			encrypted = xmlDoc.findXPath("/config/sftpPut/source/value[" + String.valueOf(seq) + "]/@encrypted");
 
 			if (encrypted.equals("yes"))
 			{
@@ -407,11 +407,11 @@ public class Transfer extends Thread
 
 		seq = 1;
 
-		while (xmlDoc.findXPath("/config/sftpSend2/destination/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
+		while (xmlDoc.findXPath("/config/sftpPut/destination/value[" + String.valueOf(seq) + "]/@id").equals("") == false)
 		{
-			id = xmlDoc.findXPath("/config/sftpSend2/destination/value[" + String.valueOf(seq) + "]/@id");
-			value = xmlDoc.findXPath("/config/sftpSend2/destination/value[" + String.valueOf(seq) + "]");
-			encrypted = xmlDoc.findXPath("/config/sftpSend2/destination/value[" + String.valueOf(seq) + "]/@encrypted");
+			id = xmlDoc.findXPath("/config/sftpPut/destination/value[" + String.valueOf(seq) + "]/@id");
+			value = xmlDoc.findXPath("/config/sftpPut/destination/value[" + String.valueOf(seq) + "]");
+			encrypted = xmlDoc.findXPath("/config/sftpPut/destination/value[" + String.valueOf(seq) + "]/@encrypted");
 
 			if (encrypted.equals("yes"))
 			{

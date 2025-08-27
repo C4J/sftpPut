@@ -36,7 +36,7 @@ public class EncryptData
 			myWriter.write("Encrypted password is contained within the [ ] below.");
 			myWriter.write(System.lineSeparator());
 			myWriter.write(System.lineSeparator());
-			myWriter.write("Copy and paste into the sftpSend.xml to protect authentication passwords.");
+			myWriter.write("Copy and paste into the sftpPut.xml to protect authentication passwords.");
 			myWriter.write(System.lineSeparator());
 			myWriter.write(System.lineSeparator());
 			myWriter.write("[" + encrypted + "]");

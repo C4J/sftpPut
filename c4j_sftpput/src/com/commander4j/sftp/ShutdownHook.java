@@ -13,10 +13,10 @@ public class ShutdownHook extends Thread
 	{
 		
 		JWait wait = new JWait();
-		Transfer.sftpsend.requestStop();
-		Transfer.sftpsend.interrupt();
+		Transfer.sftpput.requestStop();
+		Transfer.sftpput.interrupt();
 
-		while (Transfer.sftpsend.isAlive())
+		while (Transfer.sftpput.isAlive())
 		{
 
 			wait.oneSec();

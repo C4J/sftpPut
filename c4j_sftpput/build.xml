@@ -4,12 +4,12 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="b7sftpSend">
+<project basedir="." default="build" name="b7sftpPut">
 	<property environment="env"/>
 	<property name="debuglevel" value="source,lines,vars"/>
 	<property name="target" value="21"/>
 	<property name="source" value="21"/>
-	<path id="b7sftpSend.classpath">
+	<path id="b7sftpPut.classpath">
 		<pathelement location="bin"/>
 		<fileset dir="lib">
 			<include name="**/*.jar"/>
@@ -34,7 +34,7 @@
 		<echo message="${ant.project.name}: ${ant.file}"/>
 		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
 			<src path="src"/>
-			<classpath refid="b7sftpSend.classpath"/>
+			<classpath refid="b7sftpPut.classpath"/>
 			<compilerarg value="-proc:full"/>
 		</javac>
 	</target>
