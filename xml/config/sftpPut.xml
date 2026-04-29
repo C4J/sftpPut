@@ -5,11 +5,11 @@
 
     <!--  Standard username and password logon example -->
     
-    <sftpSend2>
+    <sftpPut>
 
 		<general>
 		    <value id="title" encrypted="no">SFTP Example</value>
-		 	<value id="emailEnabled" encrypted="no">true</value>
+		 	<value id="emailEnabled" encrypted="no">false</value>
 		</general>
 
         <security>
@@ -37,7 +37,7 @@
             <value id="tempFileExtension" encrypted="no">.tmp</value>
         </destination>
 
-    </sftpSend2>
+    </sftpPut>
 
     <!--  public key and username example - comment out above and uncomment below to use -->
 

@@ -5,7 +5,7 @@
 
     <!--  Standard username and password logon example -->
     
-    <sftpSend2>
+    <sftpPut>
 
 		<general>
 		    <value id="title" encrypted="no">SFTP Example</value>
@@ -13,13 +13,13 @@
 		</general>
 
         <security>
-            <value id="remoteHost" encrypted="no">10.0.0.48</value>
-            <value id="remotePort" encrypted="no">2222</value>
+            <value id="remoteHost" encrypted="no">1.2.3.4</value>
+            <value id="remotePort" encrypted="no">22</value>
             <value id="checkKnownHosts" encrypted="no">no</value>
             <value id="knownHostsFile" encrypted="no">./ssh/known_hosts</value>
             <value id="authType" encrypted="no">user password</value>
-            <value id="username" encrypted="no">sftptest</value>
-            <value id="password" encrypted="no">sftptest</value>
+            <value id="username" encrypted="no">testuser</value>
+            <value id="password" encrypted="no">testpassword</value>
             <value id="privateKeyFile" encrypted="no">./ssh/sftpSend</value>
             <value id="privateKeyPasswordProtected" encrypted="no">no</value>
             <value id="privateKeyPassword" encrypted="no"/>
@@ -33,11 +33,11 @@
         </source>
 
         <destination>
-            <value id="remoteDir" encrypted="no">/upload/</value>
+            <value id="remoteDir" encrypted="no">/remote/</value>
             <value id="tempFileExtension" encrypted="no">.tmp</value>
         </destination>
 
-    </sftpSend2>
+    </sftpPut>
 
     <!--  public key and username example - comment out above and uncomment below to use -->
 
