@@ -47,9 +47,9 @@ public class Transfer extends Thread
 	public static JUtility utils = new JUtility();
 	public static EmailQueue emailqueue = new EmailQueue();
 	public static EmailThread emailthread;
-	public static String version = "4.83";
+	public static String version = "4.84";
 	public static Long pollFrequencySeconds = (long) 0;
-	
+
 	public static void main(String[] args)
 	{
 
@@ -70,7 +70,7 @@ public class Transfer extends Thread
 		emailthread.start();
 
 		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Put"), "Program started on " + utils.getClientName(), "");
-		
+
 		try
 		{
 			pollFrequencySeconds = Long.valueOf(source.get("pollFrequencySeconds"));
@@ -98,7 +98,7 @@ public class Transfer extends Thread
 				run = false;
 			}
 		}
-		
+
 		emailqueue.addToQueue("Monitor", utils.replaceNullStringwithDefault(general.get("title"), "SFTP Put"), "Program stopped on " + utils.getClientName(), "");
 
 		emailthread.shutdown();
@@ -252,7 +252,7 @@ public class Transfer extends Thread
 		File sourceDirectory = new File(source.get("localDir"));
 		FileFilter fileFilter = WildcardFileFilter.builder().setWildcards(source.get("localFileMask")).setIoCase(IOCase.INSENSITIVE).get();
 	    File[] filesNames = sourceDirectory.listFiles(fileFilter);
-		
+
 		int sendCount = 0;
 
 		if (filesNames.length > 0)
@@ -267,7 +267,7 @@ public class Transfer extends Thread
 				for (int i = 0; i < filesNames.length; i++)
 				{
 
-					
+
 					File sourceFile = filesNames[i];
 
 					if (source.get("backupDir").equals("") == false)
